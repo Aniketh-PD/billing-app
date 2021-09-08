@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import validator from 'validator'
 import axios from 'axios'
+import '../../Register.css'
 
 
 const Register = (props) => {
@@ -91,23 +92,20 @@ const Register = (props) => {
         }
     }
     return(
-        <form onSubmit={handleSubmit}>
-            <label>Username</label>
-            <input type='text' value={userName} onChange={handleChange} name='username' />
-            {formErr.userName && <span>{formErr.userName}</span>}<br/>
-            <label>Email</label>
-            <input type='text' value={email}  onChange={handleChange} name='email' />
-            {formErr.email && <span>{formErr.email}</span>}
-            {formErr.validEmail && <span>{formErr.validEmail}</span>}<br/>
-            <label>Password</label>
-            <input type='password' value={password}  onChange={handleChange} name='password'/>
-            {formErr.password && <span>{formErr.password}</span>}<br/>
-            <label>BusinessName</label>
-            <input type='text' value={businessName}  onChange={handleChange} name='businessname'/><br/>
-            <label>Address</label>
-            <textarea value={address}  onChange={handleChange} name='address'></textarea><br/>
-            <input type='submit' value='register'/>
-        </form>
+            <div className='center'>
+                <form onSubmit={handleSubmit}>
+                    <input type='text' value={userName} onChange={handleChange} name='username' placeholder="UserName"/>
+                    {formErr.userName && <span>{formErr.userName}</span>}<br/>
+                    <input type='text' value={email}  onChange={handleChange} name='email' placeholder="Email"/>
+                    {formErr.email && <span>{formErr.email}</span>}
+                    {formErr.validEmail && <span>{formErr.validEmail}</span>}<br/>
+                    <input type='password' value={password}  onChange={handleChange} name='password' placeholder="Password"/>
+                    {formErr.password && <span>{formErr.password}</span>}<br/>
+                    <input type='text' value={businessName}  onChange={handleChange} name='businessname' placeholder="BusinessName"/><br/>
+                    <textarea value={address}  onChange={handleChange} name='address' placeholder="Address"></textarea><br/>
+                    <input type='submit' value='register'/>                    
+                </form>
+            </div>
     )
 }
 

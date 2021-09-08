@@ -48,9 +48,9 @@ const Navbar = (props) => {
                                         </>
                                     ) : (
                                         <>
-                                                <Link className="navbar-brand active" to='/'>P.O.S</Link>
-                                                <Link className=" me-auto nav-link" to='/billingapp/register'>Register</Link>
-                                                <Link className=" me-auto nav-link" to='/billingapp/login'>Login</Link> 
+                                                <Link className="me-auto navbar-brand active" to='/'>P.O.S</Link>
+                                                <Link className="nav-link" to='/billingapp/register'>Register</Link>
+                                                <Link className="nav-link" to='/billingapp/login'>Login</Link> 
                                             
                                         </>
                                     )

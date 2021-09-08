@@ -1,8 +1,13 @@
 const Home = (props) => {
     return(
-        <div>
-            <h1>Home</h1>
-        </div>
+            <div>
+                <p>Home</p>
+                <div className="d-flex">
+                    <a className="me-auto">hello</a>
+                    <div>Flex item</div>
+                    <div>Flex item</div>
+                </div>
+            </div>
     )
 }
 

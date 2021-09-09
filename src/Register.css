@@ -1,9 +1,0 @@
-
-.center {
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    height : 600px;
-    justify-content: center;
-    align-items: center;
-}

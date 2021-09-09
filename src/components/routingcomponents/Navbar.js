@@ -33,32 +33,25 @@ const Navbar = (props) => {
 
     return(
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container-fluid">
-                <div className="navbar-nav">
-                    <div className ="d-flex flex-row">
-                                {
-                                    isLoggedIn ? (
-                                        <>
-                                            <Link className="navbar-brand active" to="/billingapp/user">User</Link>
-                                            <Link className="nav-link" to="/billingapp/customers">Customers</Link>
-                                            <Link className="nav-link" to="/billingapp/products">Products</Link>
-                                            <Link className="nav-link" to="/billingapp/bills">Bills</Link>
-                                            <Link className="nav-link" to="#" onClick={handleClick}>Logout</Link>
-                                        </>
-                                    ) : (
-                                        <>
-                                                <Link className="me-auto navbar-brand active" to='/'>P.O.S</Link>
-                                                <Link className="nav-link" to='/billingapp/register'>Register</Link>
-                                                <Link className="nav-link" to='/billingapp/login'>Login</Link> 
-                                            
-                                        </>
-                                    )
-                                }
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            {
+                isLoggedIn ? (
+                    <>
+                        <Link to="/billingapp/user">User</Link>
+                        <Link to="/billingapp/customers">Customers</Link>
+                        <Link to="/billingapp/products">Products</Link>
+                        <Link to="/billingapp/bills">Bills</Link>
+                        <Link to="#" onClick={handleClick}>Logout</Link>
+                    </>
+                ) : (
+                    <>
+                            <Link to='/'>Home</Link>
+                            <Link to='/billingapp/register'>Register</Link>
+                            <Link to='/billingapp/login'>Login</Link> 
+                        
+                    </>
+                )
+            }
+
             <Route path="/" exact={true} component={Home}/>
             <Route path="/billingapp/register" component={Register}/>
             <Route path="/billingapp/login" component={LogIn}/>

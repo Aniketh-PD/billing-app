@@ -1,7 +1,6 @@
 import {useState} from 'react'
 import validator from 'validator'
 import axios from 'axios'
-import '../../Register.css'
 
 
 const Register = (props) => {
@@ -95,12 +94,12 @@ const Register = (props) => {
             <div className='center'>
                 <form onSubmit={handleSubmit}>
                     <input type='text' value={userName} onChange={handleChange} name='username' placeholder="UserName"/>
-                    {formErr.userName && <span>{formErr.userName}</span>}<br/>
+                    {formErr.userName && <p>{formErr.userName}</p>}<br/>
                     <input type='text' value={email}  onChange={handleChange} name='email' placeholder="Email"/>
-                    {formErr.email && <span>{formErr.email}</span>}
-                    {formErr.validEmail && <span>{formErr.validEmail}</span>}<br/>
+                    {formErr.email && <p>{formErr.email}</p>}
+                    {formErr.validEmail && <p>{formErr.validEmail}</p>}<br/>
                     <input type='password' value={password}  onChange={handleChange} name='password' placeholder="Password"/>
-                    {formErr.password && <span>{formErr.password}</span>}<br/>
+                    {formErr.password && <p>{formErr.password}</p>}<br/>
                     <input type='text' value={businessName}  onChange={handleChange} name='businessname' placeholder="BusinessName"/><br/>
                     <textarea value={address}  onChange={handleChange} name='address' placeholder="Address"></textarea><br/>
                     <input type='submit' value='register'/>                    

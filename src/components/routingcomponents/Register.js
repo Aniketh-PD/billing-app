@@ -1,108 +1,110 @@
-import {useState} from 'react'
-import validator from 'validator'
 import axios from 'axios'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import {useFormik} from 'formik'
+import * as yup from 'yup'
+import '../../styles/Register.css'
 
 
+
+ const validationSchema = yup.object({
+    username : yup.string().required('user name is required'),
+    email : yup.string().email('enter a valid email').required('email is required'),
+    password : yup.string().required('password is required'),
+    businessName : yup.string().required('business name is required'),
+    address : yup.string().required('address is required')
+ })
 const Register = (props) => {
-    const [userName,setUserName] = useState('')
-    const[email,setEmail] = useState('')
-    const[password,setPassword] = useState('')
-    const[businessName,setBusinessName] = useState('')
-    const[address,setAddress] = useState('')
-    const[formErr,setFormErr] = useState({})
-    const errors = {}
-
-    const handleChange = (e) => {
-        const attr = e.target.name
-        if(attr==='username')
-        {
-            setUserName(e.target.value)
-        }
-        if(attr === 'email')
-        {
-            setEmail(e.target.value)
-        }
-        if(attr === 'password')
-        {
-            setPassword(e.target.value)
-        }
-        if(attr ==='businessname')
-        {
-            setBusinessName(e.target.value)
-        }
-        if(attr === 'address')
-        {
-            setAddress(e.target.value)
-        }
-    }
-
-    const validateForm = () => {
-        if(userName.length === 0)
-        {
-            errors.userName = 'username cannot be blank'
-        }
-        if(email.length === 0)
-        {
-            errors.email = 'email cannot be blank'
-        }
-        else if(!validator.isEmail(email))
-        {
-            errors.validEmail = 'please enter a valid email'
-        }
-        if(password.length === 0)
-        {
-            errors.password = 'password cannot be empty'
-        }
-        setFormErr(errors)
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        validateForm()
-        if(Object.keys(errors).length === 0)
-        {
-            const formData = {
-                username : userName,
-                email : email,
-                password : password,
-                businessName : businessName,
-                address :address
-            }
-            axios.post('http://dct-billing-app.herokuapp.com/api/users/register',formData)
+    const formik = useFormik({
+        initialValues : {
+            username : "",
+            email:"",
+            password : "",
+            businessName : "",
+            address : ""
+        },
+        onSubmit : (values) => {
+            axios.post('http://dct-billing-app.herokuapp.com/api/users/register',values)
             .then((response) => {
-                const result = response.data
-                if(result.hasOwnProperty('errors'))
+                const registered = response.data
+                if(registered.hasOwnProperty('errors'))
                 {
-                    alert(result.message)
+                    alert(registered.message)
                 }
-                else if(result.hasOwnProperty('errmsg'))
+                else if(registered.hasOwnProperty('errmsg'))
                 {
-                    alert(`Email-${email} is already registered.\n Please register using a new email id or\n log in using the registered email id`)
+                    alert(`Email-${values.email} is already registered.\n Please register using a new email id or\n log in using the registered email id`)
                 }
                 else{
                     alert('successfuly registered')
                     props.history.push('/billingapp/login')
                 }
+
             })
             .catch((err) => {
                 alert(err.message)
             })
-
-        }
-    }
+        },
+        validationSchema : validationSchema
+    })
     return(
-            <div className='center'>
-                <form onSubmit={handleSubmit}>
-                    <input type='text' value={userName} onChange={handleChange} name='username' placeholder="UserName"/>
-                    {formErr.userName && <p>{formErr.userName}</p>}<br/>
-                    <input type='text' value={email}  onChange={handleChange} name='email' placeholder="Email"/>
-                    {formErr.email && <p>{formErr.email}</p>}
-                    {formErr.validEmail && <p>{formErr.validEmail}</p>}<br/>
-                    <input type='password' value={password}  onChange={handleChange} name='password' placeholder="Password"/>
-                    {formErr.password && <p>{formErr.password}</p>}<br/>
-                    <input type='text' value={businessName}  onChange={handleChange} name='businessname' placeholder="BusinessName"/><br/>
-                    <textarea value={address}  onChange={handleChange} name='address' placeholder="Address"></textarea><br/>
-                    <input type='submit' value='register'/>                    
+            <div>
+                <form className="form-center" onSubmit={formik.handleSubmit}>
+                    <TextField 
+                        label="User Name"
+                        name ="username"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        error={formik.touched.username && Boolean(formik.errors.username)}
+                        helperText = {formik.touched.username && formik.errors.username}
+                        variant="outlined"
+                        margin="dense"                
+                    />
+                    <TextField
+                        label="Email"
+                        name="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText = {formik.touched.email && formik.errors.email}
+                        variant="outlined"
+                        margin="dense"
+                    />
+                    <TextField 
+                        label="Password"
+                        type ="password"
+                        name="password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText = {formik.touched.password && formik.errors.password}
+                        variant="outlined"
+                        margin="dense"
+                    />
+
+                    <TextField 
+                        label="Business Name"
+                        name="businessName"
+                        value={formik.values.businessName}
+                        onChange={formik.handleChange}
+                        error={formik.touched.businessName && Boolean(formik.errors.businessName)}
+                        helperText = {formik.touched.businessName && formik.errors.businessName}
+                        variant="outlined"
+                        margin="dense" 
+                    /> 
+                    <TextField
+                        label="Address"
+                        multiline
+                        rows={4}
+                        name="address"
+                        value={formik.values.address}
+                        onChange={formik.handleChange}
+                        error={formik.touched.address && Boolean(formik.errors.address)}
+                        helperText = {formik.touched.address && formik.errors.address}
+                        variant="outlined"
+                        margin="dense"
+                    />
+                    <Button type="submit" variant="contained" color="primary">Register</Button>
                 </form>
             </div>
     )

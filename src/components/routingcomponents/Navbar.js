@@ -1,6 +1,11 @@
 import { useEffect } from 'react'
 import {Link,Route,withRouter} from 'react-router-dom'
 import { useSelector,useDispatch} from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import Home from './Home'
 import Register from './Register'
 import LogIn from './Login'
@@ -10,8 +15,21 @@ import Products from './Products'
 import Bills from './Bills'
 import {userLoggedin} from '../../actions/userAction'
 
+const linkStyles = {
+    textDecoration : 'none',
+    color : 'white'
+}
+
+const useStyles = makeStyles(() => ({
+    title: {
+      flexGrow: 1,
+    },
+  }));
+  
 
 const Navbar = (props) => {
+    const classes = useStyles()
+
     const isLoggedIn = useSelector((state) => {
         return state.userInfo.isLoggedIn
     })
@@ -33,24 +51,44 @@ const Navbar = (props) => {
 
     return(
         <div>
-            {
-                isLoggedIn ? (
-                    <>
-                        <Link to="/billingapp/user">User</Link>
-                        <Link to="/billingapp/customers">Customers</Link>
-                        <Link to="/billingapp/products">Products</Link>
-                        <Link to="/billingapp/bills">Bills</Link>
-                        <Link to="#" onClick={handleClick}>Logout</Link>
-                    </>
-                ) : (
-                    <>
-                            <Link to='/'>Home</Link>
-                            <Link to='/billingapp/register'>Register</Link>
-                            <Link to='/billingapp/login'>Login</Link> 
-                        
-                    </>
-                )
-            }
+            <AppBar position="static">
+                <Toolbar>
+                    {
+                        isLoggedIn ? (
+                            <>
+                                <Button color="inherit">
+                                    <Link style={linkStyles} to="/billingapp/user">User</Link>
+                                </Button>
+                                <Button color="inherit">
+                                    <Link style={linkStyles} to="/billingapp/customers">Customers</Link>
+                                </Button>
+                                <Button color="inherit">
+                                    <Link  style={linkStyles} to="/billingapp/products">Products</Link>
+                                </Button>
+                                <Button color="inherit">
+                                <   Link  style={linkStyles} to="/billingapp/bills">Bills</Link>
+                                </Button>
+                                <Button color="inherit">
+                                <   Link  style={linkStyles} to="#" onClick={handleClick}>Logout</Link>
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Typography variant="h6" className={classes.title}>
+                                    <Link style={linkStyles} to='/'>Home</Link>
+                                </Typography>
+                                <Button color="inherit">
+                                    <Link style={linkStyles} to='/billingapp/register'>Register</Link>
+                                </Button>
+                                <Button color ="inherit">
+                                    <Link style={linkStyles} to='/billingapp/login'>Login</Link> 
+                                </Button>
+                                
+                            </>
+                        )
+                    }
+                </Toolbar>
+            </AppBar>
 
             <Route path="/" exact={true} component={Home}/>
             <Route path="/billingapp/register" component={Register}/>

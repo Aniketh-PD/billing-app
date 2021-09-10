@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { asyncUserLogin } from '../../actions/userAction'
 import validator from 'validator'
+import  Button  from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import '../../styles/Login.css'
 
 const LogIn = (props) => {
     const[email,setEmail] = useState('')
@@ -55,15 +58,29 @@ const LogIn = (props) => {
     }
 
     return(
-        <form onSubmit={handleSubmit}>
-            <label>Email</label>
-            <input type='text' value={email} onChange={handleChange} name='email'/>
-            {formErr.email && <span>{formErr.email}</span>}
-            {formErr.validEmail && <span>{formErr.validEmail}</span>}<br/>
-            <label>Password</label>
-            <input type='password' value={password} onChange={handleChange} name='password'/>
-            {formErr.password && <span>{formErr.password}</span>}<br/>
-            <input type='submit' value='Login'/>
+        <form className='form-center' onSubmit={handleSubmit}>
+            <TextField 
+                label = 'Email'
+                value={email} 
+                onChange={handleChange} 
+                name='email'
+                error={formErr.email || formErr.validEmail}
+                helperText={formErr.email || formErr.validEmail}
+                variant="outlined"
+                margin="dense"
+            /><br/>
+            <TextField
+                label ='Password'
+                type="password"
+                value={password}
+                onChange={handleChange}
+                name='password'
+                error={formErr.password}
+                helperText={formErr.password}
+                variant='outlined'
+                margin='dense'
+            /><br/>
+            <Button type="submit" variant="contained" color="primary"> Login </Button>
         </form>
     )
 }

@@ -1,7 +1,11 @@
 import BillsForm from "../billcomponents/BillsForm"
+import BillsList from '../billcomponents/BillsList'
 const Bills = (props) => {
     return(
-        <BillsForm/>
+        <div>
+            <BillsForm/>
+            <BillsList/>
+        </div>
     )
 }
 

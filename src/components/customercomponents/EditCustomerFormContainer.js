@@ -1,6 +1,7 @@
 import CustomersForm from './CustomersForm'
 import { asyncEditCustomer } from '../../actions/customersActions'
 import { useDispatch } from 'react-redux'
+import '../../styles/Customers.css'
 
 const EditCustomerFormContainer = (props) => {
     const {id,name,mobile,email,handleEdit} = props

@@ -7,8 +7,8 @@ import TextField from '@material-ui/core/TextField'
 import '../../styles/Login.css'
 
 const LogIn = (props) => {
-    const[email,setEmail] = useState('')
-    const[password,setPassword] = useState('')
+    const[email,setEmail] = useState('mahesh@gmail.com')
+    const[password,setPassword] = useState('mahesh24')
     const[formErr,setFormErr] = useState('')
 
     const dispatch = useDispatch()

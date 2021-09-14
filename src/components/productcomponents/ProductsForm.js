@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import { TextField,Button } from '@material-ui/core'
 
 
 const ProductsForm = (props) => {
@@ -63,14 +64,27 @@ const ProductsForm = (props) => {
 
     return(
         <form onSubmit={handleSubmit}>
-            <input type="text" value={productName} onChange={handleChange} placeholder="Product Name" name="product"/>
-            {formErr.productName && <span>{formErr.productName}</span>}<br/>
-            
-            <input type="number" value={price} onChange={handleChange} placeholder="Price" name="price"/>
-            {formErr.price && <span>{formErr.price}</span>}
-            {formErr.validPrice && <span>{formErr.validPrice}</span>}<br/>
+            <TextField 
+                label="Product Name"
+                name="product" 
+                value={productName} 
+                onChange={handleChange} 
+                error={formErr.productName}
+                helperText={formErr.productName}
+                variant="outlined"
+            /><br/>
 
-            <input type="submit" value="Add Product"/>
+            <TextField 
+                type="number" 
+                label="Price" 
+                name="price" 
+                value={price} 
+                onChange={handleChange} 
+                error={formErr.price}
+                helperText={formErr.price}
+                variant="outlined"  
+            /><br/>
+            <Button type="submit" variant="contained" color="primary">Add Product</Button>
         </form>
     )
 }

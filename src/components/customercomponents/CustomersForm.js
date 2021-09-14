@@ -1,5 +1,8 @@
 import {useState} from 'react'
 import validator from 'validator'
+import  Button  from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import '../../styles/Customers.css'
 
 
 const CustomersForm = (props) => {
@@ -75,21 +78,44 @@ const CustomersForm = (props) => {
     }
 
     return(
-        <form onSubmit={handleSubmit}>
-            <input type="text" value={customerName} onChange={handleChange} name="customer" placeholder="customer name" />
-            {formErr.customerName&& <span>{formErr.customerName}</span>}<br/>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <TextField 
+                    className='textfield'
+                    label="Customer Name" 
+                    value={customerName} 
+                    onChange={handleChange} 
+                    name="customer" 
+                    error={formErr.customerName}
+                    helperText={formErr.customerName}
+                    variant="outlined"
+                /><br/>
 
-            <input type="text" value={mobileNumber} onChange={handleChange} name="mobile"  placeholder="mobile" />
-            {formErr.mobileNumber && <span>{formErr.mobileNumber}</span>}
-            {formErr.validMobileNumber && <span>{formErr.validMobileNumber}</span>}
-            {formErr.missingMobileNumber && <span>{formErr.missingMobileNumber}</span>}<br/>
-            
-            <input type="text" value={email} onChange={handleChange} name="email" placeholder="Email"/>
-            {formErr.email && <span>{formErr.email}</span>}
-            {formErr.validEmail && <span>{formErr.validEmail}</span>}<br/>
-            
-            <input type="submit" value="Add Customer"/>
-        </form>
+                <TextField 
+                    className='textfield'
+                    label="Mobile" 
+                    value={mobileNumber} 
+                    onChange={handleChange} 
+                    name="mobile"
+                    error={formErr.mobileNumber || formErr.validMobileNumber || formErr.missingMobileNumber}
+                    helperText={formErr.mobileNumber || formErr.validMobileNumber || formErr.missingMobileNumber}
+                    variant="outlined"
+                /><br/>
+                
+                <TextField 
+                className='textfield'
+                label="Email" 
+                value={email} 
+                onChange={handleChange} 
+                name="email"
+                error={formErr.email || formErr.validEmail}
+                helperText={formErr.email || formErr.validEmail}
+                variant="outlined"
+                /><br/>
+
+                <Button className='add-button' type="submit" variant="contained" color="primary"> Add Customer </Button>
+            </form>
+        </div>
     )
 }
 

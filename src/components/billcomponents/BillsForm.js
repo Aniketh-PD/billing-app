@@ -1,5 +1,11 @@
 import {useSelector,useDispatch} from 'react-redux'
 import { useEffect,useState } from 'react'
+import TextField from '@material-ui/core/TextField'
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button'
+import FormHelperText from '@material-ui/core/FormHelperText';
+import CartItems from './CartItems';
 import { asyncGetCustomerData } from '../../actions/customersActions'
 import {asyncGetProducts} from '../../actions/productActions'
 import { asyncAddBill } from '../../actions/billsAction'
@@ -8,15 +14,17 @@ const BillsForm = (props) => {
     const dispatch = useDispatch()
     const[customerId,setCustomerId] = useState('')
     const [billDate,setBillDate] = useState('')
-    const [lineItems,setLineItems] = useState([{
-        product : '',
-        quantity : ''
-    }])
+    const [productId,setProductId] = useState('')
+    const[itemquantity,setItemQuantity] = useState('1')
+    const [lineItems,setLineItems] = useState([])
+    const[formErr,setFormErr] = useState({})
+    const[cartItemErr,setCartItemErr] = useState({})
+    const err = {},cartErr={}
 
-    useEffect(() => {
-        dispatch(asyncGetCustomerData())
-        dispatch(asyncGetProducts())
-    },[])
+    // useEffect(() => {
+    //     dispatch(asyncGetCustomerData())
+    //     dispatch(asyncGetProducts())
+    // },[])
 
     const customers = useSelector((state) => {
         return state.customers
@@ -24,7 +32,6 @@ const BillsForm = (props) => {
     const products = useSelector((state) => {
         return state.products
     })
-
     const handleChange = (e) => {
         const attr = e.target.name
         if(attr === 'customer')
@@ -35,85 +42,168 @@ const BillsForm = (props) => {
         {
             setBillDate(e.target.value)
         }
+        if(attr === 'product')
+        {
+            setProductId(e.target.value)
+        }
+        if(attr === 'itemquantity')
+        {
+            setItemQuantity(e.target.value)
+        }
     }
-
-
-    const handleClick = (e) =>{
-        e.preventDefault()
-        const newLineItems = [...lineItems,{product :'' , quantity : ''}]
-        setLineItems(newLineItems)
-    }
-
-    const handleLineItemChange = (e,index) => {
-        const arr = [...lineItems]
-        arr[index][e.target.name] = e.target.value
-        arr[index][e.target.name] = e.target.value
+    const handleDecrement = (id) => {
+        const arr = lineItems.map((lineItem) => {
+            if(lineItem.id === id)
+            {
+                return{...lineItem,quantity:Number(lineItem.quantity) - 1}
+            }
+            else
+            {
+                return{...lineItem}
+            }
+        })
         setLineItems(arr)
     }
-
-    const handleRemove = (e,index) => {
-        e.preventDefault()
-        const filterLineItems = lineItems.filter((lineItem,i) =>{
-            return i !== index
+    const handleIncrement = (id) => {
+        const arr = lineItems.map((lineItem) => {
+            if(lineItem.id === id)
+            {
+                return{...lineItem,
+                    quantity: Number(lineItem.quantity) + 1}
+            }
+            else
+            {
+                return{...lineItem}
+            }
         })
-        setLineItems(filterLineItems)
+        setLineItems(arr)
     }
-
+    const generateCartItems = (lineItems,products) => {
+        const arr = []
+        for(const item of lineItems)
+        {
+            for(const prod of products)
+            {
+                if(item.product === prod._id)
+                {
+                    const obj = {...item,name : prod.name}
+                    arr.push(obj)
+                }
+            }
+        }
+        return arr
+    }
+    const validateCartItem = () => {
+        if(productId.length === 0)
+        {
+            cartErr.blankProduct = 'Product name required' 
+        }
+        setCartItemErr(cartErr)
+    }
+    const validateForm = () => {
+        if(billDate.length === 0)
+        {
+            err.blankDate = 'Date field required'
+        }
+        if(customerId.length === 0 )
+        {
+            err.blankCustomer = 'customer field required'
+        }
+        if(lineItems.length === 0)
+        {
+            err.noProduct = 'product field required'
+        }
+        setFormErr(err)
+    }
+    const handleClick = (e) => {
+        e.preventDefault()
+        const newLineItems = [{id : Number(new Date()),product : productId,quantity:itemquantity},...lineItems]
+        validateCartItem()
+        if(Object.keys(cartErr).length === 0)
+        {
+            setLineItems(newLineItems)
+            setProductId('')
+            setItemQuantity('1')
+        }
+    }
     const handleSubmit = (e) => {
         e.preventDefault()
-        const formData = {
-            date : billDate,
-            customer : customerId,
-            lineItems : lineItems
+        validateForm()
+        if(Object.keys(err).length === 0)
+        {
+            const resetForm = () => {
+                setBillDate('')
+                setCustomerId('')
+                setProductId('')
+                setLineItems([]) 
+            }
+            const lineItemswithoutId = lineItems.map(({id,...rest}) => ({...rest}))
+            const formData = {
+                date : billDate,
+                customer : customerId,
+                lineItems : lineItemswithoutId
+            }
+            dispatch(asyncAddBill(formData,resetForm))
         }
-        console.log(formData)
-        const resetForm = () => {
-            setCustomerId('')
-            setBillDate('')
-            setLineItems([{
-                product : '',
-                quantity : ''
-            }])
-        }
-        dispatch(asyncAddBill(formData,resetForm))
     }
-
     return(
         <form onSubmit={handleSubmit}>
-            <label>Date</label>
-            <input type="date" value={billDate} onChange={handleChange} name='billDate'/><br/>
-            <label>Customer</label>
-            <select value={customerId} onChange={handleChange} name="customer">
-                <option value="" >select Customer</option>
+            <TextField
+            label='Date'
+            type='date'
+            name='billDate'
+            value={billDate}
+            onChange={handleChange} 
+            InputLabelProps={{
+                shrink:true
+            }}
+            helperText={formErr.blankDate}
+            /><br/>
+            <InputLabel>Customer</InputLabel>
+            <Select
+                native
+                id="customer"
+                value={customerId} 
+                onChange={handleChange} 
+                name="customer"        
+            >
+                <option value="">select customer</option>
                 {
                     customers.map((customer) => {
                         return <option key={customer._id} value={customer._id}>{customer.name}</option>
                     })
                 }
-            </select><br/>
+            </Select>
+            <FormHelperText>{formErr.blankCustomer}</FormHelperText><br/>
+                <InputLabel>Product</InputLabel>
+                <Select
+                native
+                value={productId}
+                onChange={handleChange}
+                name="product"
+                error={Boolean(cartItemErr.blankProduct)}
+                >
+                    <option value="">select product</option>
+                    {
+                        products.map((product) => {
+                            return <option key={product._id} value={product._id}>{product.name}</option>
+                        })
+                    }
+                </Select>
+                <FormHelperText>{cartItemErr.blankProduct || formErr.noProduct}</FormHelperText><br/>
+            <TextField 
+                type="number" 
+                label="Quantity" 
+                name="itemquantity" 
+                value={itemquantity} 
+                onChange={handleChange}
+            /><br/>
+            <Button onClick={handleClick}>Add Item</Button><br/>
             {
-                lineItems.map((lineItem,index) => {
-                    return (
-                        <div key={index}>
-                            <label>Product</label>
-                            <select value={lineItem.product} onChange={(e) => {handleLineItemChange(e,index)}} name="product">
-                                    <option value=""> select product</option>
-                                    {
-                                        products.map((product) => {
-                                            return <option key={product._id} value={product._id}>{product.name}</option>
-                                        })
-                                    }
-                            </select><br/>
-                            <label>Quantity</label>
-                            <input type='number' value={lineItem.quantity} onChange={ (e) => handleLineItemChange(e,index)} name='quantity' />
-                            <button onClick={ (e) => {handleRemove(e,index)}}>X</button><br/>
-                        </div>
-                    )
-                })
-            }
-            <input type="submit" value="Add Bill"/>
-            <button onClick={handleClick}>Add Product</button>
+                lineItems.length > 0 && <CartItems cartItems={generateCartItems(lineItems,products)} handleDecrement={handleDecrement} handleIncrement={handleIncrement}/>
+            } 
+            <Button type="submit">Add Bill</Button>      
         </form>
-    )
+    )   
 }
 export default BillsForm

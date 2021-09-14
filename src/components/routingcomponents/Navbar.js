@@ -66,10 +66,10 @@ const Navbar = (props) => {
                                     <Link  style={linkStyles} to="/billingapp/products">Products</Link>
                                 </Button>
                                 <Button color="inherit">
-                                <   Link  style={linkStyles} to="/billingapp/bills">Bills</Link>
+                                    <Link style={linkStyles} to="/billingapp/bills">Bills</Link>
                                 </Button>
                                 <Button color="inherit">
-                                <   Link  style={linkStyles} to="#" onClick={handleClick}>Logout</Link>
+                                    <Link style={linkStyles} to="#" onClick={handleClick}>Logout</Link>
                                 </Button>
                             </>
                         ) : (

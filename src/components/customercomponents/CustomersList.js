@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import {useSelector,useDispatch} from 'react-redux'
 import CustomerItem from './CustomerItem'
 import { asyncGetCustomerData } from "../../actions/customersActions"
+import '../../styles/Customers.css'
 
 const CustomersList = (props) => {
     const dispatch = useDispatch()
@@ -16,7 +17,7 @@ const CustomersList = (props) => {
 
 
     return(
-        <div>
+        <div className="card-grid"> 
             {
                 customers.map((customer) => {
                   return  <CustomerItem key={customer._id} {...customer}/>

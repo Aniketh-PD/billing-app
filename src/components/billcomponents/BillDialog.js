@@ -58,6 +58,7 @@ const BillDialog = (props) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="secondary"> Close </Button>
+                <Button onClick={handleClose} color="secondary"> Download </Button>
             </DialogActions>
         </Dialog>
     )

@@ -6,6 +6,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button'
 import FormHelperText from '@material-ui/core/FormHelperText';
 import CartItems from './CartItems';
+import BillDialog from './BillDialog';
 import { asyncAddBill } from '../../actions/billsAction'
 
 const BillsForm = (props) => {
@@ -17,6 +18,8 @@ const BillsForm = (props) => {
     const [lineItems,setLineItems] = useState([])
     const[formErr,setFormErr] = useState({})
     const[cartItemErr,setCartItemErr] = useState({})
+    const[generatedBill,setGeneratedBill] = useState({})
+    const[open,setOpen] = useState(false)
     const err = {},cartErr={}
 
     const customers = useSelector((state) => {
@@ -25,6 +28,21 @@ const BillsForm = (props) => {
     const products = useSelector((state) => {
         return state.products
     })
+
+    const handleClose = () => {
+        setOpen(false);
+      };
+
+    const getProduct = (id) => {
+        const result = products.find(prod => prod._id === id)
+        return result
+    }
+
+    const getCustomer = (id) => {
+        const result = customers.find(customer => customer._id === id)
+        return result
+    }
+
     const handleChange = (e) => {
         const attr = e.target.name
         if(attr === 'customer')
@@ -86,6 +104,7 @@ const BillsForm = (props) => {
         }
         return arr
     }
+
     const validateCartItem = () => {
         if(productId.length === 0)
         {
@@ -136,67 +155,76 @@ const BillsForm = (props) => {
                 customer : customerId,
                 lineItems : lineItemswithoutId
             }
-            dispatch(asyncAddBill(formData,resetForm))
+            const getGeneratedBill = (billData) => {
+                setGeneratedBill(billData)
+                setOpen(true)
+            }
+            dispatch(asyncAddBill(formData,resetForm,getGeneratedBill))
         }
     }
     return(
-            <form onSubmit={handleSubmit}>
-                <TextField
-                label='Date'
-                type='date'
-                name='billDate'
-                value={billDate}
-                onChange={handleChange} 
-                InputLabelProps={{
-                    shrink:true
-                }}
-                helperText={formErr.blankDate}
-                /><br/>
-                <InputLabel>Customer</InputLabel>
-                <Select
-                    native
-                    id="customer"
-                    value={customerId} 
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                    label='Date'
+                    type='date'
+                    name='billDate'
+                    value={billDate}
                     onChange={handleChange} 
-                    name="customer"        
-                >
-                    <option value="">select customer</option>
-                    {
-                        customers.map((customer) => {
-                            return <option key={customer._id} value={customer._id}>{customer.name}</option>
-                        })
-                    }
-                </Select>
-                <FormHelperText>{formErr.blankCustomer}</FormHelperText><br/>
-                    <InputLabel>Product</InputLabel>
+                    InputLabelProps={{
+                        shrink:true
+                    }}
+                    helperText={formErr.blankDate}
+                    /><br/>
+                    <InputLabel>Customer</InputLabel>
                     <Select
-                    native
-                    value={productId}
-                    onChange={handleChange}
-                    name="product"
-                    error={Boolean(cartItemErr.blankProduct)}
+                        native
+                        id="customer"
+                        value={customerId} 
+                        onChange={handleChange} 
+                        name="customer"        
                     >
-                        <option value="">select product</option>
+                        <option value="">select customer</option>
                         {
-                            products.map((product) => {
-                                return <option key={product._id} value={product._id}>{product.name}</option>
+                            customers.map((customer) => {
+                                return <option key={customer._id} value={customer._id}>{customer.name}</option>
                             })
                         }
                     </Select>
-                    <FormHelperText>{cartItemErr.blankProduct || formErr.noProduct}</FormHelperText><br/>
-                <TextField 
-                    type="number" 
-                    label="Quantity" 
-                    name="itemquantity" 
-                    value={itemquantity} 
-                    onChange={handleChange}
-                /><br/>
-                <Button onClick={handleClick}>Add Item</Button><br/>
+                    <FormHelperText>{formErr.blankCustomer}</FormHelperText><br/>
+                        <InputLabel>Product</InputLabel>
+                        <Select
+                        native
+                        value={productId}
+                        onChange={handleChange}
+                        name="product"
+                        error={Boolean(cartItemErr.blankProduct)}
+                        >
+                            <option value="">select product</option>
+                            {
+                                products.map((product) => {
+                                    return <option key={product._id} value={product._id}>{product.name}</option>
+                                })
+                            }
+                        </Select>
+                        <FormHelperText>{cartItemErr.blankProduct || formErr.noProduct}</FormHelperText><br/>
+                    <TextField 
+                        type="number" 
+                        label="Quantity" 
+                        name="itemquantity" 
+                        value={itemquantity} 
+                        onChange={handleChange}
+                    /><br/>
+                    <Button onClick={handleClick}>Add Item</Button><br/>
+                    {
+                        lineItems.length > 0 && <CartItems cartItems={generateCartItems(lineItems,products)} handleDecrement={handleDecrement} handleIncrement={handleIncrement}/>
+                    } 
+                    <Button type="submit">Add Bill</Button>      
+                </form>
                 {
-                    lineItems.length > 0 && <CartItems cartItems={generateCartItems(lineItems,products)} handleDecrement={handleDecrement} handleIncrement={handleIncrement}/>
-                } 
-                <Button type="submit">Add Bill</Button>      
-            </form>
+                  open && <BillDialog open={open} handleClose={handleClose} getProduct={getProduct} getCustomer={getCustomer} {...generatedBill} />
+                }
+            </div>
     )   
 }
 export default BillsForm

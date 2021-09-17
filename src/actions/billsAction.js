@@ -3,7 +3,7 @@ import axios from 'axios'
 export const ADD_BILL = 'ADD_BILL'
 export const GET_BILLS = 'GET_BILLS'
 
-export const asyncAddBill = (formData,resetForm) => {
+export const asyncAddBill = (formData,resetForm,getGeneratedBill) => {
     return (dispatch) => {
         axios.post('http://dct-billing-app.herokuapp.com/api/bills',formData,{headers : {
             'Authorization' : `Bearer ${localStorage.getItem('token')}`
@@ -11,6 +11,7 @@ export const asyncAddBill = (formData,resetForm) => {
         .then((response) => {
             const result = response.data
             dispatch(addBill(result))
+            getGeneratedBill(result)
             resetForm()
         })
         .catch((error) => {

@@ -10,7 +10,6 @@ export const asyncAddBill = (formData,resetForm) => {
         }})
         .then((response) => {
             const result = response.data
-            console.log(result)
             dispatch(addBill(result))
             resetForm()
         })
@@ -34,6 +33,7 @@ export const asyncGetBills = () => {
         })
     }
 }
+
 
 export const addBill = (data) => {
     return {

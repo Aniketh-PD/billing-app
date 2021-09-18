@@ -8,6 +8,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import CartItems from './CartItems';
 import BillDialog from './BillDialog';
 import { asyncAddBill } from '../../actions/billsAction'
+import {getProduct} from '../../selectors/ProductSelector'
 
 const BillsForm = (props) => {
     const dispatch = useDispatch()
@@ -22,21 +23,16 @@ const BillsForm = (props) => {
     const[open,setOpen] = useState(false)
     const err = {},cartErr={}
 
-    const customers = useSelector((state) => {
-        return state.customers
+    const [customers, products] = useSelector((state) => {
+        return [state.customers, state.products]
     })
-    const products = useSelector((state) => {
-        return state.products
-    })
+ 
 
     const handleClose = () => {
         setOpen(false);
       };
 
-    const getProduct = (id) => {
-        const result = products.find(prod => prod._id === id)
-        return result
-    }
+
 
     const getCustomer = (id) => {
         const result = customers.find(customer => customer._id === id)
@@ -222,7 +218,7 @@ const BillsForm = (props) => {
                     <Button type="submit">Add Bill</Button>      
                 </form>
                 {
-                  open && <BillDialog open={open} handleClose={handleClose} getProduct={getProduct} getCustomer={getCustomer} {...generatedBill} />
+                    open && <BillDialog open={open} handleClose={handleClose} getProduct={getProduct} getCustomer={getCustomer} {...generatedBill} products={products} />
                 }
             </div>
     )   

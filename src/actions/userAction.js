@@ -17,7 +17,15 @@ export const asyncUserLogin = (formData,redirectToUser) => {
                 alert(`logged in `)
                 dispatch(userLoggedin(true))
                 localStorage.setItem('token',result.token)
-                redirectToUser()
+                Promise.all([axios.get(''), axios.get(''), axios.get('')]).then((values) => {
+                    const [customers, products, bills] = values 
+                    // dispatch 
+                     redirectToUser()
+                })
+                .catch(() => {
+                  
+                })
+               
             }
         })
         .catch((err) => {

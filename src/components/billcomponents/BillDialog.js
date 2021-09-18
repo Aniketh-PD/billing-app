@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 
 
 const BillDialog = (props) => {
-    const {_id,date,customer,total,lineItems,getProduct,getCustomer,open,handleClose} = props
+    const {_id,date,customer,total,lineItems,getProduct,getCustomer,open,handleClose,products} = props
     return (
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle onClose={handleClose}>
@@ -42,7 +42,7 @@ const BillDialog = (props) => {
                                 lineItems.map((lineItem) => {
                                     return (
                                         <TableRow key={lineItem._id}>
-                                            <TableCell component="th" scope="row">{getProduct(lineItem.product).name}</TableCell>
+                                            <TableCell component="th" scope="row">{getProduct(products,lineItem.product).name}</TableCell>
                                             <TableCell align="right">{lineItem.quantity}</TableCell>
                                             <TableCell align="right">{lineItem.subTotal}</TableCell>
                                         </TableRow>

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import {Link,Route,withRouter} from 'react-router-dom'
 import { useSelector,useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,19 +28,11 @@ const useStyles = makeStyles(() => ({
 
 const Navbar = (props) => {
     const classes = useStyles()
+    const dispatch = useDispatch()
 
     const isLoggedIn = useSelector((state) => {
         return state.userInfo.isLoggedIn
     })
-
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        if(localStorage.getItem('token'))
-        {
-            dispatch(userLoggedin(true))
-        }
-    },[])
 
     const handleClick = () => {
         localStorage.removeItem('token')

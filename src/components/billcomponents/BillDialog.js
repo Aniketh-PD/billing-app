@@ -14,13 +14,13 @@ import Paper from '@material-ui/core/Paper';
 
 
 const BillDialog = (props) => {
-    const {_id,date,customer,total,lineItems,getProduct,getCustomer,open,handleClose,products} = props
+    const {date,customer,total,lineItems,open,handleClose,getCustomer,getProduct,products,customers} = props
     return (
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle onClose={handleClose}>
                 <div style={{display : 'flex'}}>
                     <Typography style={{flexGrow : '1'}}>
-                    Customer Name : {getCustomer(customer).name}
+                    Customer Name : {getCustomer(customers,customer).name}
                     </Typography>
                     <Typography>
                         {date}

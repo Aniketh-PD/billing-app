@@ -9,6 +9,7 @@ import CartItems from './CartItems';
 import BillDialog from './BillDialog';
 import { asyncAddBill } from '../../actions/billsAction'
 import {getProduct} from '../../selectors/ProductSelector'
+import { getCustomer } from '../../selectors/CustomersSelector';
 
 const BillsForm = (props) => {
     const dispatch = useDispatch()
@@ -32,12 +33,6 @@ const BillsForm = (props) => {
         setOpen(false);
       };
 
-
-
-    const getCustomer = (id) => {
-        const result = customers.find(customer => customer._id === id)
-        return result
-    }
 
     const handleChange = (e) => {
         const attr = e.target.name
@@ -218,7 +213,13 @@ const BillsForm = (props) => {
                     <Button type="submit">Add Bill</Button>      
                 </form>
                 {
-                    open && <BillDialog open={open} handleClose={handleClose} getProduct={getProduct} getCustomer={getCustomer} {...generatedBill} products={products} />
+                    open && <BillDialog open={open} 
+                            handleClose={handleClose} 
+                            getProduct={getProduct} 
+                            getCustomer={getCustomer} 
+                            {...generatedBill} 
+                            products={products}  
+                            customers={customers} />
                 }
             </div>
     )   

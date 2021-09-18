@@ -1,22 +1,20 @@
 import {useState} from 'react'
 import { useSelector } from 'react-redux'
-import { TableCell, TableRow } from "@material-ui/core"
+import { TableCell} from "@material-ui/core"
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BillDialog from './BillDialog'
+import { getProduct } from '../../selectors/ProductSelector';
+import {getCustomer} from '../../selectors/CustomersSelector'
 
 const BillItem = (props) => {
     const{_id,date,customer,total,lineItems} = props
-    console.log(props)
     const[open,setOpen] = useState(false)
     
-    const customers = useSelector((state) => {
-        return state.customers
+    const [customers,products] = useSelector((state) => {
+        return [state.customers,state.products]
     })
 
-    const products = useSelector((state) => {
-        return state.products
-    })
 
     const handleDialogOpen = () => {
         setOpen(true)
@@ -26,15 +24,7 @@ const BillItem = (props) => {
         setOpen(false);
       };
 
-    const getProduct = (id) => {
-        const result = products.find(prod => prod._id === id)
-        return result
-    }
 
-    const getCustomer = (id) => {
-        const result = customers.find(customer => customer._id === id)
-        return result
-    }
 
     return(
         <>
@@ -46,10 +36,12 @@ const BillItem = (props) => {
                         getProduct={getProduct} 
                         getCustomer ={getCustomer} 
                         open={open} 
-                        handleClose={handleClose}/>
+                        handleClose={handleClose}
+                        products={products}
+                        customers={customers}/>
             }
                 <TableCell>{date}</TableCell>
-                <TableCell>{getCustomer(customer).name}</TableCell>
+                <TableCell>{getCustomer(customers,customer).name}</TableCell>
                 <TableCell>{total}</TableCell>
                 <TableCell>
                     <VisibilityIcon color="primary" onClick={handleDialogOpen}/>

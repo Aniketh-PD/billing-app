@@ -7,6 +7,8 @@ import {BrowserRouter} from 'react-router-dom'
 import { asyncgetAccountDetails } from './actions/userAction';
 import { asyncGetCustomerData } from './actions/customersActions'
 import {asyncGetProducts} from './actions/productActions'
+import { asyncGetBills } from './actions/billsAction'
+import { userLoggedin } from './actions/userAction';
 
 
 const store = configureStore()
@@ -15,9 +17,11 @@ const store = configureStore()
 
 if(localStorage.getItem('token'))
 {
+  store.dispatch(userLoggedin(true))
   store.dispatch(asyncgetAccountDetails())
   store.dispatch(asyncGetCustomerData())
   store.dispatch(asyncGetProducts())
+  store.dispatch(asyncGetBills())
 }
 
 store.subscribe(() => {

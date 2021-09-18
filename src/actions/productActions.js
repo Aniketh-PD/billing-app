@@ -82,21 +82,21 @@ const addProduct = (data) => {
     }
 }
 
-const getProducts = (data) => {
+export const getProducts = (data) => {
     return{
         type : GET_PRODUCTS,
         payload : data
     }
 }
 
-const editProduct = (data) => {
+export const editProduct = (data) => {
     return {
         type : EDIT_PRODUCT,
         payload :data
     }
 }
 
-const deleteProduct = (data) => {
+export const deleteProduct = (data) => {
     return {
         type : DELETE_PRODUCT,
         payload : data

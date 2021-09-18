@@ -1,5 +1,7 @@
 import axios from 'axios'
-
+import {getCustomers} from './customersActions'
+import {getProducts} from './productActions'
+import {getBills} from './billsAction'
 export const LOG_IN = 'LOG_IN'
 export const SET_USER = 'SET_USER'
 
@@ -17,13 +19,27 @@ export const asyncUserLogin = (formData,redirectToUser) => {
                 alert(`logged in `)
                 dispatch(userLoggedin(true))
                 localStorage.setItem('token',result.token)
-                Promise.all([axios.get(''), axios.get(''), axios.get('')]).then((values) => {
+                //redirectToUser()
+                Promise.all([axios.get('http://dct-billing-app.herokuapp.com/api/customers',{
+                    headers : {'Authorization' : `Bearer ${localStorage.getItem('token')}`}
+                }), 
+                axios.get('http://dct-billing-app.herokuapp.com/api/products',{
+                    headers : {'Authorization' : `Bearer ${localStorage.getItem('token')}`}
+                }), 
+                axios.get('http://dct-billing-app.herokuapp.com/api/bills',{
+                    headers : {'Authorization' : `Bearer ${localStorage.getItem('token')}`}
+                })])
+                .then((values) => {
                     const [customers, products, bills] = values 
-                    // dispatch 
-                     redirectToUser()
+                    console.log(customers.data,'customers')
+                    dispatch(asyncgetAccountDetails())
+                    dispatch(getCustomers(customers.data))
+                    dispatch(getProducts(products.data))
+                    dispatch(getBills(bills.data))
+                    redirectToUser()
                 })
-                .catch(() => {
-                  
+                .catch((err) => {
+                    alert(err.message)
                 })
                
             }

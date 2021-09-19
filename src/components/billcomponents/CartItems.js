@@ -1,4 +1,4 @@
-
+import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -35,13 +35,17 @@ const CartItems = (props) => {
                         <TableRow key={cartItem.id}>
                             <TableCell>{cartItem.name}</TableCell>
                             <TableCell>
-                                <RemoveCircleRoundedIcon color={cartItem.quantity <= 1 ? 'disabled' : 'secondary'} onClick={(e) => {decrement(e,cartItem.id)}} style={{marginTop :'10px'}}/>
+                                <IconButton disabled={cartItem.quantity <=1}>
+                                    <RemoveCircleRoundedIcon color={cartItem.quantity <= 1 ? 'disabled' : 'secondary'} onClick={(e) => {decrement(e,cartItem.id)}} style={{marginTop :'10px'}}/>
+                                </IconButton>
                             </TableCell>
                             <TableCell>
                                 {cartItem.quantity}
                             </TableCell>
                             <TableCell >
-                                <AddCircleIcon onClick={(e) => {increment(e,cartItem.id)}} color="primary" style={{marginTop :'10px'}}/>
+                                <IconButton>
+                                    <AddCircleIcon onClick={(e) => {increment(e,cartItem.id)}} color="primary" style={{marginTop :'10px'}}/>
+                                </IconButton>
                             </TableCell>
                         </TableRow>
                         )

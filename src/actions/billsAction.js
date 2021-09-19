@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export const ADD_BILL = 'ADD_BILL'
 export const GET_BILLS = 'GET_BILLS'
+export const REMOVE_BILL = 'REMOVE_BILL'
 
 export const asyncAddBill = (formData,resetForm,getGeneratedBill) => {
     return (dispatch) => {
@@ -35,6 +36,22 @@ export const asyncGetBills = () => {
     }
 }
 
+//
+export const asyncDeleteBill = (id) => {
+    return (dispatch) => {
+        axios.delete(`http://dct-billing-app.herokuapp.com/api/bills/${id}`,{headers : {
+            'Authorization' : `Bearer ${localStorage.getItem('token')}`
+        }})
+        .then((response) => {
+            const result = response.data
+            console.log(result)
+            dispatch(removeBill(result))
+        })
+        .catch((err) => {
+            alert(err.message)   
+        })
+    }
+}
 
 export const addBill = (data) => {
     return {
@@ -46,6 +63,13 @@ export const addBill = (data) => {
 export const getBills = (data) => {
     return{
         type : GET_BILLS,
+        payload : data
+    }
+}
+
+export const removeBill = (data) => {
+    return {
+        type : REMOVE_BILL,
         payload : data
     }
 }

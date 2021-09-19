@@ -1,20 +1,21 @@
 import {useState} from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import { TableCell} from "@material-ui/core"
+import IconButton from '@material-ui/core/IconButton';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BillDialog from './BillDialog'
+import { asyncDeleteBill } from '../../actions/billsAction';
 import { getProduct } from '../../selectors/ProductSelector';
 import {getCustomer} from '../../selectors/CustomersSelector'
 
 const BillItem = (props) => {
     const{_id,date,customer,total,lineItems} = props
     const[open,setOpen] = useState(false)
-    
+    const dispatch = useDispatch()
     const [customers,products] = useSelector((state) => {
         return [state.customers,state.products]
     })
-
 
     const handleDialogOpen = () => {
         setOpen(true)
@@ -23,8 +24,18 @@ const BillItem = (props) => {
     const handleClose = () => {
         setOpen(false);
       };
+    console.log(date)
+    const handleRemove = () => {
+        const confirmVal = window.confirm('Are you sure you want to delete this?')
+        if(confirmVal)
+        {
+            dispatch(asyncDeleteBill(_id))
+        }
+    }
 
-
+    const formattedDate = (date) => {
+        return new Date(date).toISOString().split('T')[0]
+    }
 
     return(
         <>
@@ -40,14 +51,18 @@ const BillItem = (props) => {
                         products={products}
                         customers={customers}/>
             }
-                <TableCell>{date}</TableCell>
+                <TableCell>{formattedDate(date)}</TableCell>
                 <TableCell>{getCustomer(customers,customer).name}</TableCell>
                 <TableCell>{total}</TableCell>
                 <TableCell>
-                    <VisibilityIcon color="primary" onClick={handleDialogOpen}/>
+                    <IconButton>
+                        <VisibilityIcon color="primary" onClick={handleDialogOpen}/>
+                    </IconButton>
                 </TableCell>
                 <TableCell>
-                    <DeleteIcon color="secondary"/>
+                    <IconButton>
+                        <DeleteIcon color="secondary" onClick={handleRemove}/>
+                    </IconButton>
                 </TableCell>
         </>
     )

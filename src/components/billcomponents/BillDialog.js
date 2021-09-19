@@ -15,6 +15,11 @@ import Paper from '@material-ui/core/Paper';
 
 const BillDialog = (props) => {
     const {date,customer,total,lineItems,open,handleClose,getCustomer,getProduct,products,customers} = props
+
+    const formattedDate = (date) => {
+        return new Date(date).toISOString().split('T')[0]
+    }
+
     return (
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle onClose={handleClose}>
@@ -23,7 +28,7 @@ const BillDialog = (props) => {
                     Customer Name : {getCustomer(customers,customer).name}
                     </Typography>
                     <Typography>
-                        {date}
+                        {formattedDate(date)}
                     </Typography>
                 </div>
             </DialogTitle>

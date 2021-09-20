@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../../config/axios-config'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import {useFormik} from 'formik'
@@ -24,7 +24,7 @@ const Register = (props) => {
             address : ""
         },
         onSubmit : (values) => {
-            axios.post('http://dct-billing-app.herokuapp.com/api/users/register',values)
+            axios.post('/users/register',values)
             .then((response) => {
                 const registered = response.data
                 if(registered.hasOwnProperty('errors'))

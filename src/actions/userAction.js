@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../config/axios-config'
 import {getCustomers} from './customersActions'
 import {getProducts} from './productActions'
 import {getBills} from './billsAction'
@@ -7,7 +7,7 @@ export const SET_USER = 'SET_USER'
 
 export const asyncUserLogin = (formData,redirectToUser) => {
     return (dispatch) => {
-        axios.post(`http://dct-billing-app.herokuapp.com/api/users/login`,formData)
+        axios.post(`/users/login`,formData)
         .then((response) => {
             const result = response.data
             if(result.hasOwnProperty('errors'))
@@ -19,14 +19,13 @@ export const asyncUserLogin = (formData,redirectToUser) => {
                 alert(`logged in `)
                 dispatch(userLoggedin(true))
                 localStorage.setItem('token',result.token)
-                //redirectToUser()
-                Promise.all([axios.get('http://dct-billing-app.herokuapp.com/api/customers',{
+                Promise.all([axios.get('/customers',{
                     headers : {'Authorization' : `Bearer ${localStorage.getItem('token')}`}
                 }), 
-                axios.get('http://dct-billing-app.herokuapp.com/api/products',{
+                axios.get('/products',{
                     headers : {'Authorization' : `Bearer ${localStorage.getItem('token')}`}
                 }), 
-                axios.get('http://dct-billing-app.herokuapp.com/api/bills',{
+                axios.get('/bills',{
                     headers : {'Authorization' : `Bearer ${localStorage.getItem('token')}`}
                 })])
                 .then((values) => {

@@ -1,3 +1,5 @@
+import {useRef} from 'react'
+import { useReactToPrint } from 'react-to-print';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -15,13 +17,17 @@ import Paper from '@material-ui/core/Paper';
 
 const BillDialog = (props) => {
     const {date,customer,total,lineItems,open,handleClose,getCustomer,getProduct,products,customers} = props
-
+    const componentRef = useRef()
     const formattedDate = (date) => {
         return new Date(date).toISOString().split('T')[0]
     }
 
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+      });
     return (
         <Dialog onClose={handleClose} open={open}>
+            <div ref={componentRef}>
             <DialogTitle onClose={handleClose}>
                 <div style={{display : 'flex'}}>
                     <Typography style={{flexGrow : '1'}}>
@@ -61,9 +67,10 @@ const BillDialog = (props) => {
                 Total : {total}
                 </Typography>
             </DialogContent>
+            </div>
             <DialogActions>
                 <Button onClick={handleClose} color="secondary"> Close </Button>
-                <Button onClick={handleClose} color="secondary"> Download </Button>
+                <Button onClick={handlePrint} color="secondary"> Download </Button>
             </DialogActions>
         </Dialog>
     )

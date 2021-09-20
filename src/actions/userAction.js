@@ -30,7 +30,6 @@ export const asyncUserLogin = (formData,redirectToUser) => {
                 })])
                 .then((values) => {
                     const [customers, products, bills] = values 
-                    console.log(customers.data,'customers')
                     dispatch(asyncgetAccountDetails())
                     dispatch(getCustomers(customers.data))
                     dispatch(getProducts(products.data))

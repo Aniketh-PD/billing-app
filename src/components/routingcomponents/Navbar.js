@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import PrivateRoute from '../../helper/PrivateRoute'
 import Home from './Home'
 import Register from './Register'
 import LogIn from './Login'
@@ -84,10 +85,10 @@ const Navbar = (props) => {
             <Route path="/" exact={true} component={Home}/>
             <Route path="/billingapp/register" component={Register}/>
             <Route path="/billingapp/login" component={LogIn}/>
-            <Route path="/billingapp/user" component={User}/>
-            <Route path='/billingapp/customers' component={Customers}/>
-            <Route path="/billingapp/products" component={Products}/>
-            <Route path="/billingapp/bills" component={Bills}/>
+            <PrivateRoute path="/billingapp/user" component={User}/>
+            <PrivateRoute path='/billingapp/customers' component={Customers}/>
+            <PrivateRoute path="/billingapp/products" component={Products}/>
+            <PrivateRoute path="/billingapp/bills" component={Bills}/>
         </div>
     )
 }

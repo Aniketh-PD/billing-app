@@ -35,16 +35,16 @@ const CartItems = (props) => {
                         <TableRow key={cartItem.id}>
                             <TableCell>{cartItem.name}</TableCell>
                             <TableCell>
-                                <IconButton disabled={cartItem.quantity <=1}>
-                                    <RemoveCircleRoundedIcon color={cartItem.quantity <= 1 ? 'disabled' : 'secondary'} onClick={(e) => {decrement(e,cartItem.id)}} style={{marginTop :'10px'}}/>
+                                <IconButton disabled={cartItem.quantity <=1} onClick={(e) => {decrement(e,cartItem.id)}}>
+                                    <RemoveCircleRoundedIcon color={cartItem.quantity <= 1 ? 'disabled' : 'secondary'} style={{marginTop :'10px'}}/>
                                 </IconButton>
                             </TableCell>
                             <TableCell>
                                 {cartItem.quantity}
                             </TableCell>
                             <TableCell >
-                                <IconButton>
-                                    <AddCircleIcon onClick={(e) => {increment(e,cartItem.id)}} color="primary" style={{marginTop :'10px'}}/>
+                                <IconButton onClick={(e) => {increment(e,cartItem.id)}}>
+                                    <AddCircleIcon  color="primary" style={{marginTop :'10px'}}/>
                                 </IconButton>
                             </TableCell>
                         </TableRow>

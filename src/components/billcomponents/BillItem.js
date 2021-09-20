@@ -24,7 +24,6 @@ const BillItem = (props) => {
     const handleClose = () => {
         setOpen(false);
       };
-    console.log(date)
     const handleRemove = () => {
         const confirmVal = window.confirm('Are you sure you want to delete this?')
         if(confirmVal)
@@ -55,13 +54,13 @@ const BillItem = (props) => {
                 <TableCell>{getCustomer(customers,customer).name}</TableCell>
                 <TableCell>{total}</TableCell>
                 <TableCell>
-                    <IconButton>
-                        <VisibilityIcon color="primary" onClick={handleDialogOpen}/>
+                    <IconButton onClick={handleDialogOpen}>
+                        <VisibilityIcon color="primary" />
                     </IconButton>
                 </TableCell>
                 <TableCell>
-                    <IconButton>
-                        <DeleteIcon color="secondary" onClick={handleRemove}/>
+                    <IconButton onClick={handleRemove}>
+                        <DeleteIcon color="secondary" />
                     </IconButton>
                 </TableCell>
         </>

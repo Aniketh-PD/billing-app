@@ -157,6 +157,7 @@ const BillsForm = (props) => {
             <div>
                 <form onSubmit={handleSubmit}>
                     <TextField
+                     className='textfield'
                     label='Date'
                     type='date'
                     name='billDate'
@@ -169,6 +170,7 @@ const BillsForm = (props) => {
                     /><br/>
                     <InputLabel>Customer</InputLabel>
                     <Select
+                     className='textfield'
                         native
                         id="customer"
                         value={customerId} 
@@ -185,6 +187,7 @@ const BillsForm = (props) => {
                     <FormHelperText>{formErr.blankCustomer}</FormHelperText><br/>
                         <InputLabel>Product</InputLabel>
                         <Select
+                         className='textfield'
                         native
                         value={productId}
                         onChange={handleChange}
@@ -199,18 +202,19 @@ const BillsForm = (props) => {
                             }
                         </Select>
                         <FormHelperText>{cartItemErr.blankProduct || formErr.noProduct}</FormHelperText><br/>
-                    <TextField 
+                    <TextField
+                     className='textfield' 
                         type="number" 
                         label="Quantity" 
                         name="itemquantity" 
                         value={itemquantity} 
                         onChange={handleChange}
                     /><br/>
-                    <Button onClick={handleClick}>Add Item</Button><br/>
+                    <Button color="secondary" variant="contained" className="add-item" onClick={handleClick}>Add Item</Button><br/>
                     {
                         lineItems.length > 0 && <CartItems cartItems={generateCartItems(lineItems,products)} handleDecrement={handleDecrement} handleIncrement={handleIncrement}/>
                     } 
-                    <Button type="submit">Add Bill</Button>      
+                    <Button color="primary" variant="contained" className="add-bill" type="submit">Add Bill</Button>      
                 </form>
                 {
                     open && <BillDialog open={open} 

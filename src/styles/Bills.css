@@ -1,0 +1,26 @@
+.grid-container{
+    display: grid;
+    grid-template-columns: 4fr 2fr;
+    grid-gap: 10px;
+}
+
+.item1{
+    grid-area: 1 / 1 /  2 / 2;
+}
+
+
+.flex-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-container .textfield {
+    width : 450px;
+    margin-bottom: 5px;
+}
+
+.grid-container .add-bill,.add-item {
+    width : 450px;
+}

@@ -19,10 +19,10 @@ const CartItems = (props) => {
     }
 
     return(
-        <Table>
+        <Table style={{width : '450px'}}>
             <TableHead>
                 <TableRow>
-                    <TableCell>Product Name</TableCell>
+                    <TableCell>Product</TableCell>
                     <TableCell></TableCell>
                     <TableCell>Quantity</TableCell>
                     <TableCell></TableCell>

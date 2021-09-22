@@ -1,16 +1,25 @@
-.customer-grid{
+.product-grid{
     display: grid;
     grid-template-columns: 4fr 1fr;
 }
+
 
 .center-form{
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: column; 
+}
+.product-grid .textfield{
+    width : 300px;
+    margin-bottom: 5px;
 }
 
-.customer-grid .card-grid{
+.product-grid .add-button,.close-button {
+    width : 300px;
+}
+
+.product-grid .card-grid {
     display: grid;
     margin-top: 5rem;
     grid-template-columns: repeat(3,1fr);
@@ -19,16 +28,7 @@
     text-align: center;
 }
 
-.customer-grid .textfield{
-    width : 300px;
-    margin-bottom: 5px;
+.product-grid .card-size {
+    width: 100px;
+    height: 130px;
 }
-
-.customer-grid .add-button,.close-btn{
-    width : 300px;
-}
-
-.customer-grid .card-size {
-    width: 250px;
-    height: 230px;
-  }

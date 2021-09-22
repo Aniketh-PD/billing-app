@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import { TextField,Button } from '@material-ui/core'
+import '../../styles/Products.css'
 
 
 const ProductsForm = (props) => {
@@ -64,7 +65,8 @@ const ProductsForm = (props) => {
 
     return(
         <form onSubmit={handleSubmit}>
-            <TextField 
+            <TextField
+                className='textfield' 
                 label="Product Name"
                 name="product" 
                 value={productName} 
@@ -75,6 +77,7 @@ const ProductsForm = (props) => {
             /><br/>
 
             <TextField 
+                className='textfield'
                 type="number" 
                 label="Price" 
                 name="price" 
@@ -84,7 +87,7 @@ const ProductsForm = (props) => {
                 helperText={formErr.price}
                 variant="outlined"  
             /><br/>
-            <Button type="submit" variant="contained" color="primary">Add Product</Button>
+            <Button className='add-button' type="submit" variant="contained" color="primary">Add Product</Button>
         </form>
     )
 }

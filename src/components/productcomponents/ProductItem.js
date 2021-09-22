@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import EditProductsFormContainer from './EditProductsFormContainer'
 import ProductDialog from './ProductDialog';
 import { asyncDeleteProduct } from '../../actions/productActions'
+import '../../styles/Products.css'
 
 
 
@@ -45,15 +46,15 @@ const ProductItem = (props) => {
                 toggle ?  (
                     <div>
                         <EditProductsFormContainer name={name} price={price} id={_id} handleEdit={handleEdit}/>
-                        <Button color="secondary" variant="contained" onClick={handleEdit}>close</Button>
+                        <Button className="close-button" color="secondary" variant="contained" onClick={handleEdit}>close</Button>
                     </div>
                 ) : (
                     <div>
                         {
                             open && <ProductDialog open={open} handleClose={handleClose} name={name} price={price}/>
                         }
-                        <Card style={{width:'250px',height:'130px'}}>
-                            <CardContent>
+                        <Card>
+                            <CardContent className="card-size">
                                 <Typography>
                                     {name}
                                 </Typography>

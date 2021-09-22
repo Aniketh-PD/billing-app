@@ -1,5 +1,6 @@
 import {useSelector} from 'react-redux'
 import ProductItem from './ProductItem'
+import '../../styles/Products.css'
 
 const ProductsList = (props) => {
     const products = useSelector((state) => {
@@ -7,7 +8,7 @@ const ProductsList = (props) => {
     })
 
     return(
-        <div>
+        <div className="card-grid">
             {
                 products.map((product) => {
                     return <ProductItem key={product._id} {...product}/>

@@ -23,6 +23,8 @@ const BillsTable = (props) => {
                         <TableCell>Date</TableCell>
                         <TableCell>Customer</TableCell>
                         <TableCell>Bill Amount</TableCell>
+                        <TableCell>View</TableCell>
+                        <TableCell>Delete</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

@@ -140,11 +140,11 @@ const BillsForm = (props) => {
                 setProductId('')
                 setLineItems([]) 
             }
-            const lineItemswithoutId = lineItems.map(({id,...rest}) => ({...rest}))
+            const lineItemsWithoutId = lineItems.map(({id,...rest}) => ({...rest}))
             const formData = {
                 date : billDate,
                 customer : customerId,
-                lineItems : lineItemswithoutId
+                lineItems : lineItemsWithoutId
             }
             const getGeneratedBill = (billData) => {
                 setGeneratedBill(billData)

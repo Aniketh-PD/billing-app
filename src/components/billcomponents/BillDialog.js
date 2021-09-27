@@ -31,7 +31,7 @@ const BillDialog = (props) => {
             <DialogTitle onClose={handleClose}>
                 <div style={{display : 'flex'}}>
                     <Typography style={{flexGrow : '1'}}>
-                    Customer Name : {getCustomer(customers,customer).name}
+                    Customer Name : {getCustomer(customers,customer)}
                     </Typography>
                     <Typography>
                         {formattedDate(date)}
@@ -53,7 +53,7 @@ const BillDialog = (props) => {
                                 lineItems.map((lineItem) => {
                                     return (
                                         <TableRow key={lineItem._id}>
-                                            <TableCell component="th" scope="row">{getProduct(products,lineItem.product).name}</TableCell>
+                                            <TableCell component="th" scope="row">{getProduct(products,lineItem.product)}</TableCell>
                                             <TableCell align="right">{lineItem.quantity}</TableCell>
                                             <TableCell align="right">{lineItem.subTotal}</TableCell>
                                         </TableRow>

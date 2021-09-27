@@ -51,7 +51,7 @@ const BillItem = (props) => {
                         customers={customers}/>
             }
                 <TableCell>{formattedDate(date)}</TableCell>
-                <TableCell>{getCustomer(customers,customer).name}</TableCell>
+                <TableCell>{getCustomer(customers,customer)}</TableCell>
                 <TableCell>{total}</TableCell>
                 <TableCell>
                     <IconButton onClick={handleDialogOpen}>
